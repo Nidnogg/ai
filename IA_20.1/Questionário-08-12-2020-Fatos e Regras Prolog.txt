@@ -1,0 +1,40 @@
+Considere o seguinte programa Prolog:
+parent(pam,bob).
+parent(tom,bob).
+parent(tom,liz).
+parent(bob,ann).
+parent(bob,pat).
+parent(pat,jim).
+female(pam).
+female(liz).
+female(ann).
+female(pat).
+male(tom).
+male(bob).
+male(jim).
+father(X,Y) :- male(X), parent(X,Y).
+mother(X,Y) :- female(X), parent(X,Y).
+
+Defina uma regra Prolog para relação irmaos(X,Y) que representa que "X é irmão/irmã de Y". 
+Caso seja necessário, você pode definir outros predicados para auxiliar na tarefa. Considere que os irmãos tem o mesmo pai e a mesma mãe.
+
+--------------------------------------------------------
+
+parent(pam,bob).
+parent(tom,bob).
+parent(tom,liz).
+parent(bob,ann).
+parent(bob,pat).
+parent(pat,jim).
+parent(pam,jez).
+parent(tom,jez).
+female(pam).
+female(liz).
+female(ann).
+female(pat).
+male(tom).
+male(bob).
+male(jim).
+father(X,Y) :- male(X), parent(X,Y).
+mother(X,Y) :- female(X), parent(X,Y).
+irmaos(X,Y) :- father(Z,X),father(Z,Y),mother(U,X),mother(U,Y),X\=Y.

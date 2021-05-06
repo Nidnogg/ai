@@ -1,0 +1,33 @@
+2- Faça um programa Prolog que recebe um número X e uma lista ordenada de forma crescente L1, e retorna a lista ordenada L2 que é obtida acrescentando X a L1. Você não pode usar nenhum predicado pré-definido do swipl.
+
+3- Faça um programa Prolog que dado um número qualquer X maior ou igual a zero, retorna em uma lista L, todos os múltiplos de 4 que são menores ou iguais a X.
+
+-----------------------------------------------------------------
+
+% Exercicio 2
+
+insertListOrder([],N, [N]).
+insertListOrder([X|L1], N, [N,X|L1]):- 
+        N < X, !.                
+insertListOrder([X|L1], N, [X|L2]) :- 
+    insertListOrder(L1, N, L2).       
+
+% Exercicio 3
+
+conc([], L, L).
+conc([X|L1], L2, [X|L3]):-
+	conc(L1, L2, L3).
+
+modFour(0,[0]).
+modFour(X,L) :-
+    X > 0,
+    Y is X mod 4,
+    Y=:=0,
+    X1 is X - 1,
+    modFour(X1,L1),
+	conc(L1,[X],L),!.
+
+modFour(X,L) :-
+    X > 0,
+    X1 is X - 1,
+    modFour(X1,L).

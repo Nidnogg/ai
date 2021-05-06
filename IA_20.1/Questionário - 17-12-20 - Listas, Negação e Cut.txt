@@ -1,0 +1,44 @@
+1- Faça um programa Prologque dadas duas listas L1 e L2, retorne a lista L3 que é a união de L1 e L2. Note que nesta união não pode haver elementos repetidos.
+
+2- Faça um programa Prolog que dadas duas listas L1 e L2, retorne a lista L3 que contém todos os elementos de L1 que não estão em L2.
+
+Seus programas devem ser devolvidos em um único arquivo .pl.
+
+----------------------------------------------------------------------------------
+
+% Exercicio 1 - Sem uso de cut ou not. Ainda estou tentando uma implementação mais curta desse problema, com o uso do not ou cut. 
+conc([], L, L).
+conc([X|L1], L2, [X|L3]):-
+	conc(L1, L2, L3).
+
+deleteAll(_,[],[]).
+
+deleteAll(X,[X|Y],Z):-
+    deleteAll(X,Y,Z).
+
+deleteAll(X,[X1|Y],[X1|Z]):- %Caso quando a cabeça X é diferente da cabeça X1. 
+    X\==X1,
+    deleteAll(X,Y,Z).
+
+noRepeat([],[]).
+
+noRepeat([X|Y],[X|Y1]):-
+    deleteAll(X,Y,L), %Deleta todas as repetiçoes de X na cauda Y e salva o resultado em L.
+    noRepeat(L,Y1).
+
+naoRepete(L1,L2,L3) :- 
+    conc(L1,L2,L4), % Apenas concatena L1 com L2 e salva em L4
+    noRepeat(L4,L3). % Começa a verificar todas as  repetiçoes na lista concatenada, e salva em L3 sem as repetiçoes de elementos.  
+    
+% Exercicio 2  
+naoContem([],_,[]).
+
+naoContem([X|Y], L2, [X| Y1]) :-
+    not(member(X, L2)),
+    naoContem(Y, L2, Y1).
+
+% Caso quando L2 contém algum elemento X 
+naoContem([X|Y], L2, Y1) :-
+    member(X, L2),
+    naoContem(Y, L2, Y1).
+    

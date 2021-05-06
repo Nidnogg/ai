@@ -1,0 +1,51 @@
+Faça um programa Prolog que dado um mapa qualquer, define uma coloração para o mapa usando 4 cores de tal forma que nenhuma região adjacente será pintada com a mesma cor.
+
+Comente seu programa, indicando como os mapas e cores são definidos, além de explicar como o mesmo processa as respostas. Lembre de definir como deve ser feita uma consulta.
+
+------------------------------------------------
+
+%Exercicio Mapas 
+
+% O grafo G eh representado por uma lista, onde o primeiro elemento sempre eh um 
+% vertice V seguido de um segundo elemento, uma lista L de vertices adjacentes a V.
+% Seguindo esse mesmo padrão para os outros vertices do grafo.
+
+%Exemplo de consulta: grafo([A,[B,C,D],B,[],C,[D],D,[]]).
+
+%Como resposta, temos tadas as possibilidades de coloração, conforme 
+%o criterio do enunciado.
+
+
+% Todas as posibilidades de pares cores, sem que haja repetição de cores 
+% em vertices adjacentes 
+cor(amarelo,azul).
+cor(amarelo,red).
+cor(amarelo,green).
+
+cor(azul,red).
+cor(azul,amarelo).
+cor(azul,green).
+
+cor(red,verde).
+cor(red,amarelo).
+cor(red,azul).
+
+cor(green,azul).
+cor(green,amarelo).
+cor(green,red).
+
+% Percorre todas as adjacencias ao verticie V1, definindo uma cor para o par de 
+% verticies, entre as possibilidades possiveis.  
+vertice(_,[]).
+vertice(V1,[A1|A2]):-
+    cor(V1,A1),
+    vertice(V1,A2).
+
+% Percorre o grafo sempre definindo um vertice V1  associado a sua lista L1
+% de adjacencias. 
+grafo([]).    
+grafo([V1,L1|Tail]):-
+    vertice(V1,L1),
+    grafo(Tail). % Colocaria um cut apos a chamada grafo(Tail), para 
+% sempre retornar apenas uma possibilidade de coloração. Que pela ordem 
+% dos fatos de cor(), sempre será em decorrencia do primero vertice V=amarelo.
