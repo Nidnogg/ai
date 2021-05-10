@@ -1,19 +1,24 @@
 import random
 import copy
 
-'''Returns a board of size N'''
-def board(N):
-  board = []
-  for x in range(0, N):
-    column_size = random.randint(0, N-1)
-    board.append(column_size)
-  print("original board is " + str(board))
-  return board
-            
 '''
-Returns a list of sublists, each sublist 
-being a neighbor to the current node
-''' 
+Retorna tabuleiro de tamanho N*N
+As rainhas estão sempre em colunas diferentes e são identificadas pelo número da sua coluna
+A representação é feita guardando a linha de cada rainha
+'''
+def board(N):
+  tam = N*N
+  board = []
+  for x in range(0, tam):
+    column_size = random.randint(0, tam-1)
+    board.append(column_size)
+  print("tabuleiro original é " + str(board))
+  return board
+
+'''
+Retorna uma lista de sublistas
+Cada sublista é vizinha do estado atual
+'''
 def neighbors(board):
   neighbors = []
   editedBoardPositions = copy.deepcopy(board)
@@ -24,24 +29,42 @@ def neighbors(board):
       if (x == y):
         continue
       currentNeighbor[i] = y
-      editedBoardPositions[i] = -1      
+      editedBoardPositions[i] = -1
       neighbors.append(currentNeighbor)
-  print("printing neighbors")
-  for x in neighbors:
-    print(x)
   return neighbors
 
-
 def randomNeighbor(neighbors):
-  print("random neighbor")
-  print(random.choice(neighbors))
+  #print("vizinho aleatório")
+  #print(random.choice(neighbors))
   return random.choice(neighbors)
 
+'''
+Retorna número de ataques possíveis entre rainhas
+'''
+def attacks(board):
+  numAttacks = 0
+  #seen = []
+
+  # Conflitos verticais são impossíveis devido a modelagem
+  for i in range(0,len(board)):
+    for j in range(i+1,len(board)):
+      # Conflitos horizontais: ocorre entre rainhas com valores (linhas) iguais
+      if board[i] == board[j]:
+        numAttacks += 1
+        #print("conflito entre ", i, "e ", j)
+  	  # Conflitos diagonais: ocorre entre pares de rainhas cuja distância vertical e horizontal são iguais
+      elif abs(j-i) == abs(board[j]-board[i]):
+        numAttacks += 1
+        #print("conflito entre ", i, "e ", j)
+
+  return numAttacks
 
 def main():
-  neighbors(board(4))
-  randomNeighbor(neighbors(board(4)))
-  
+  #neighbors(board(4))
+  #attacks(randomNeighbor(neighbors(board(4))))
+  #print(attacks([3,2,1,2]))
+  print(attacks([2,0,3,1]))
+
 
 if __name__ == '__main__':
     main()
