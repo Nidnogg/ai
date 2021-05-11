@@ -7,12 +7,10 @@ As rainhas estão sempre em colunas diferentes e são identificadas pelo número
 A representação é feita guardando a linha de cada rainha
 '''
 def board(N):
-  tam = N*N
   board = []
   for x in range(0, tam):
-    column_size = random.randint(0, tam-1)
+    column_size = random.randint(0, N-1)
     board.append(column_size)
-  print("tabuleiro original é " + str(board))
   return board
 
 '''
@@ -59,11 +57,25 @@ def attacks(board):
 
   return numAttacks
 
+
+def hillClimbing(board):
+  current = copy.deepcopy(board)
+  while True:
+    for x in neighbors(board):
+      print('checking attacks current:  ' + str(current) + 'vs ' + str(x))
+      if(attacks(x) <= attacks(current)):
+        return x
+      current = x
+
+
 def main():
   #neighbors(board(4))
   #attacks(randomNeighbor(neighbors(board(4))))
   #print(attacks([3,2,1,2]))
-  print(attacks([2,0,3,1]))
+  #print(attacks([2,0,3,1]))
+  #print(hillClimbing([0,1,2,3]))
+  print(hillClimbing([2,0,3,1]))
+
 
 
 if __name__ == '__main__':
