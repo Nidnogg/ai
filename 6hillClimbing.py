@@ -58,23 +58,24 @@ def attacks(board):
   return numAttacks
 
 
-def hillClimbing(board):
+def hillClimbingA(board):
   current = copy.deepcopy(board)
+  i = 0
   while True:
-    for x in neighbors(board):
-      print('checking attacks current:  ' + str(current) + 'vs ' + str(x))
-      if(attacks(x) <= attacks(current)):
-        return x
-      current = x
-
+    allNeighbors = neighbors(current)
+    curNeighbor = allNeighbors[i]
+    if(-attacks(curNeighbor) <= -attacks(current)):
+      return current
+    current = curNeighbor 
+    i = i + 1
 
 def main():
   #neighbors(board(4))
   #attacks(randomNeighbor(neighbors(board(4))))
   #print(attacks([3,2,1,2]))
   #print(attacks([2,0,3,1]))
-  #print(hillClimbing([0,1,2,3]))
-  print(hillClimbing([2,0,3,1]))
+  print(hillClimbingA([1,2,2,2]))
+  #print(hillClimbingA([2,0,3,1]))
 
 
 
